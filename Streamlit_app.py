@@ -8,6 +8,65 @@ from PIL import Image, ImageDraw, ImageFont
 import os
 import platform
 import datetime
+import streamlit.components.v1 as components
+
+def inject_disable_scroll_js():
+    components.html(
+        """
+    <script>
+    const sliders = document.querySelectorAll('div[data-baseweb="slider"]');
+    sliders.forEach(slider => {
+      let isDragging = false;
+
+      slider.addEventListener('mousedown', () => {
+        isDragging = true;
+        document.body.style.overflow = 'hidden'; // Disable scroll
+      });
+
+      slider.addEventListener('mouseup', () => {
+        isDragging = false;
+        document.body.style.overflow = 'auto';   // Enable scroll
+      });
+
+      slider.addEventListener('mouseleave', () => {  // Handle cases where mouse leaves slider while dragging
+        if (isDragging) {
+          isDragging = false;
+          document.body.style.overflow = 'auto';   // Enable scroll
+        }
+      });
+    });
+
+    // Touch events (for mobile)
+    sliders.forEach(slider => {
+      slider.addEventListener('touchstart', () => {
+        document.body.style.overflow = 'hidden'; // Disable scroll
+      });
+
+      slider.addEventListener('touchend', () => {
+        document.body.style.overflow = 'auto';   // Enable scroll
+      });
+
+      slider.addEventListener('touchcancel', () => {  // Optional: Handle touch cancel events
+        document.body.style.overflow = 'auto';   // Enable scroll
+      });
+
+      slider.addEventListener('touchmove', (event) => {
+        // Prevent default touchmove behavior within the slider area
+        event.stopPropagation();
+      }, { passive: false }); // Use passive: false to allow preventDefault()
+    });
+    </script>
+    """,
+        height=0,
+        width=0,
+    )
+
+inject_disable_scroll_js()  # Call the function to inject the JavaScript
+st.title("My Streamlit App")
+
+# Example Slider
+value = st.slider("Slider Example", 0, 100, 50)
+st.write("Slider Value:", value)
 
 # --- Constantes de trafic spécifiques aux villes ---
 city_traffic_params = {
