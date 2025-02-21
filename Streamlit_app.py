@@ -64,10 +64,6 @@ def inject_disable_scroll_js():
 inject_disable_scroll_js()  # Call the function to inject the JavaScript
 st.title("My Streamlit App")
 
-# Example Slider
-value = st.slider("Slider Example", 0, 100, 50)
-st.write("Slider Value:", value)
-
 # --- Constantes de trafic spécifiques aux villes ---
 city_traffic_params = {
     "Los Angeles 🇺🇸 (Fort Trafic)": {
