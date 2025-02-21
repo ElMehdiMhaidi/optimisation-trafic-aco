@@ -62,7 +62,6 @@ def inject_disable_scroll_js():
     )
 
 inject_disable_scroll_js()  # Call the function to inject the JavaScript
-st.title("My Streamlit App")
 
 # --- Constantes de trafic spécifiques aux villes ---
 city_traffic_params = {
